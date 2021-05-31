@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using IIG.PasswordHashingUtils;
 
@@ -13,6 +13,24 @@ namespace Lab2
             String password = "123456";
             String res = PasswordHasher.GetHash(password);
             
+            Assert.IsNotNull(res);
+        }
+
+        [TestMethod]
+        public void MultiByte()
+        {
+            String password = "123♥日本語";
+            String res = PasswordHasher.GetHash(password);
+
+            Assert.IsNotNull(res);
+        }
+
+        [TestMethod]
+        public void EmptyString()
+        {
+            String password = String.Empty;
+            String res = PasswordHasher.GetHash(password);
+
             Assert.IsNotNull(res);
         }
 
@@ -57,7 +75,7 @@ namespace Lab2
 
             var res1 = PasswordHasher.GetHash(password);
             var res2 = PasswordHasher.GetHash(password, salt);
-
+            
             Assert.AreNotEqual(res1, res2);
         }
 
@@ -77,7 +95,7 @@ namespace Lab2
         [TestMethod]
         public void EmptySaltSameAsDefault()
         {
-            String salt = "";
+            String salt = string.Empty;
             String password = "123456";
 
             var res1 = PasswordHasher.GetHash(password);
@@ -166,7 +184,7 @@ namespace Lab2
         }
 
         [TestMethod]
-        public void AdlerModMaxInt()
+        public void AdlerModMaxUint()
         {
             String salt = "salt";
             uint mod = uint.MaxValue;
@@ -179,10 +197,36 @@ namespace Lab2
         }
 
         [TestMethod]
-        public void AdlerModZero()
+        public void AdlerModMaxUintM1()
         {
             String salt = "salt";
-            uint mod = 0;
+            uint mod = uint.MaxValue - 1;
+            String password = "123456";
+
+            PasswordHasher.Init(salt, mod);
+            var res = PasswordHasher.GetHash(password);
+
+            Assert.IsNotNull(res);
+        }
+
+        [TestMethod]
+        public void AdlerModMinUint()
+        {
+            String salt = "salt";
+            uint mod = uint.MinValue;
+            String password = "123456";
+            
+            PasswordHasher.Init(salt, mod);
+            var res = PasswordHasher.GetHash(password);
+
+            Assert.IsNotNull(res);
+        }
+
+        [TestMethod]
+        public void AdlerModMinUintP1()
+        {
+            String salt = "salt";
+            uint mod = uint.MinValue + 1;
             String password = "123456";
 
             PasswordHasher.Init(salt, mod);
