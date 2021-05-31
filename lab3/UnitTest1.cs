@@ -16,7 +16,7 @@ namespace TestBinaryFlag
         }
 
         [TestMethod]
-        public void Test_Route_1_2_lower_upper_bound()
+        public void Test_Route_1_2_upper_bound()
         {
             Assert.ThrowsException<ArgumentOutOfRangeException>(delegate () {
                 var flag = new MultipleBinaryFlag(17179868710);
