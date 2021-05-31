@@ -26,7 +26,7 @@ namespace Lab2
         }
 
         [TestMethod]
-        public void EmptyString()
+        public void EmptyPassword()
         {
             String password = String.Empty;
             String res = PasswordHasher.GetHash(password);
